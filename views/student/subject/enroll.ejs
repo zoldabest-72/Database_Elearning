@@ -1,0 +1,163 @@
+<%- include('../layout/header'); -%>
+
+    <!-- Header Layout Content -->
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section">
+            <h1 class="h2 mb-0">Courses</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item">Courses</li>
+                <li class="breadcrumb-item active">Browse Courses</li>
+            </ol>
+            <!-- Search form -->
+            <!-- <form class="search-form navbar-search d-none d-md-flex" action="fixed-index.html">
+                    <button class="btn" type="submit"><i class="material-icons">search</i></button>
+                    <input type="text" class="form-control" placeholder="Search ...">
+                </form> -->
+            <div class="col-lg-12 d-flex align-items-center">
+                <div class="flex" style="max-width: 100%">
+                    <div class="card m-0">
+                        <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values="[&quot;js-lists-values-employee-name&quot;, &quot;js-lists-values-employer-name&quot;, &quot;js-lists-values-projects&quot;, &quot;js-lists-values-activity&quot;, &quot;js-lists-values-earnings&quot;]">
+
+                            <!-- Search Form -->
+
+
+                            <form class="search-form" method="GET">
+                                <input name="keyword" type="text" class="form-control search" placeholder="Search ...">
+                                <button class="btn" type="submit"><i class="material-icons">search</i></button>
+                            </form>
+
+
+                            <!-- END Search Form -->
+
+                            <!-- Search Result Table -->
+                            <% if (searchs) { %>
+                                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+
+                                            <th>
+                                                <a href="javascript:void(0)" class="sort asc" data-sort="js-lists-values-subject-name">Subject</a>
+                                            </th>
+
+                                            <th style="text-align: center;">Credits</th>
+                                            <th style="text-align: center;">Faculty</th>
+                                            <th class="pl-0"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list" id="search">
+                                        <% searchs.forEach((subject)=> {%>
+                                            <tr>
+                                                <td class="js-lists-values-code small">
+                                                    <%= subject.Code %>
+                                                </td>
+                                                <td class="js-lists-values-subject-name">
+                                                    <strong>
+                                                        <%= subject.Name %>
+                                                    </strong>
+                                                    <!-- <div class="d-flex align-items-center ml-24pt"> -->
+                                                    <% if (enrolledCodes.includes(subject.Code)) { %>
+                                                        <i class="material-icons text-success icon-16pt p-8pt">check_circle</i>
+                                                        <% }; %>
+                                                </td>
+                                                <td class="js-lists-values-credits" style="text-align:center;">
+                                                    <%= subject.NoOfCredits %>
+                                                </td>
+                                                <td class="js-lists-values-faculty small" style="text-align: center;">
+                                                    <%= subject.FacultyCode %>
+                                                </td>
+                                                <td class="text-right pl-0">
+                                                    <form class="enroll-form" method="POST">
+                                                        <% if (enrolledCodes.includes(subject.Code)) { %>
+                                                            <input type="hidden" name="remove" value="<%= subject.Code %>">
+                                                            <button type="submit" class="btn btn-accent btn-rounded">Remove</button>
+                                                            <% } else { %>
+                                                                <input type="hidden" name="enroll" value="<%= subject.Code %>">
+                                                                <button type="submit" class="btn btn-success btn-rounded">Enroll</button>
+                                                                <% } %>
+
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                            <%});%>
+                                    </tbody>
+
+                                </table>
+                                <% }; %>
+                                    <!-- END Search Result Table -->
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- Separator -->
+            <div class="page-separator" style="margin-top: 20px;">
+                <div class="page-separator__text">Recommended Courses</div>
+            </div>
+            <!-- Recommended courses -->
+            <div class="row card-group-row">
+                <%recommends.forEach((recommend)=> { if (!enrolledCodes.includes(recommend.Code)) {%>
+                    <div class="col-lg-4 card-group-row__col">
+
+                        <div class="card card-group-row__card p-8pt">
+
+
+
+                            <div class="d-flex flex flex-grow-2">
+                                <div class="d-flex flex-column flex flex-grow-1">
+                                    <a href="#" class="mb-0">
+                                        <%= recommend.Code %>
+                                            <strong>
+                                                <%= " " + recommend.Name %>
+                                            </strong>
+                                    </a>
+                                    <div class="d-flex align-items-center mb-8pt">
+
+                                        <a href="" class="mr-4pt"><span
+                                                class="indicator-line rounded bg-primary"></span></a>
+
+                                        <a href="" class="mr-4pt"><span
+                                                class="indicator-line rounded bg-accent"></span></a>
+
+                                    </div>
+                                </div>
+                                <!-- <a href="#"><i class="material-icons text-50">more_horiz</i></a> -->
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="flex d-flex align-items-center">
+                                    <small class="text-50 mr-4pt">Credits:</small>
+
+
+                                    <!-- <i class="material-icons icon-16pt text-20 mr-4pt">link</i> -->
+                                    <small class="text-50">
+                                        <%= recommend.NoOfCredits %>
+                                    </small>
+
+
+
+                                </div>
+                                <form class="enroll-form" method="POST">
+                                    <div class="d-flex align-items-center p-4pt">
+                                        <a style="text-decoration: none;" class="rounded-circle d-flex align-items-center border align-items-center text-30" href="">
+                                            <input name="enroll" value="<%=recommend.Code%>" type="hidden">
+                                            <button type="submit" class="btn btn-success btn-rounded">
+                                                ENROLL
+                                            </button>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <% }}); %>
+            </div>
+        </div>
+
+    </div>
+    <!-- // END Header Layout Content -->
+    <%- include('../layout/footer'); -%>

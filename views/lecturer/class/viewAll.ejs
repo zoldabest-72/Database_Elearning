@@ -1,0 +1,172 @@
+<%- include('../layout/header'); -%>
+    <style>
+        .hidden {
+            opacity: 0;
+            transform: rotateX(-90deg);
+            transform-style: preserve-3d;
+            max-height: 0px;
+        }
+        
+        .hidden-parent {
+            max-height: 0px !important;
+        }
+        
+        .toast.toast-error {
+            background-color: #d9534f;
+        }
+        
+        .select2-dropdown .select2-results {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+        
+        .select2-dropdown .select2-results::-webkit-scrollbar {
+            visibility: hidden;
+            width: 0px;
+        }
+    </style>
+    <link type="text/css" href="assets/css/select2.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/select2/select2.min.css" rel="stylesheet">
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section pb-0">
+            <h1 class="h2 mb-0">Lớp</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/faculty">Home</a></li>
+                <li class="breadcrumb-item">Components</li>
+                <li class="breadcrumb-item active">Tables</li>
+
+            </ol>
+        </div>
+        <div class="container page__container page-section">
+            <div class="page-separator d-flex justify-content-between">
+                <div class="page-separator__text">Lớp</div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-white" id="btn-search" style="margin-right: 10px;">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden-parent" style="perspective: 400px;transition: all 300ms;max-height:300px;">
+                <div class="pb-32pt hidden" style="transform-origin: top;transition: all 300ms;height:auto;max-height: 300px;">
+                    <div class="container page__container">
+                        <form action="/lecturer/subject/<%= subjectCode %>" class="col-md-12 p-0 mx-auto d-flex justify-content-between align-items-center" method="GET" id="form-search">
+
+
+                            <div class="form-group">
+                                <label class="form-label" for="Semester">Học kỳ:</label>
+                                <select name="Semester" id="Semester" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="2" value="-1" selected>
+                                        Học kỳ
+                                    </option>
+                                    <% semesters.forEach((s)=>{%>
+                                        <option data-select2-id="2" value="<%= s.Code %>"
+                                            <%=condition.Semester==s.Code?"selected":""%>>
+                                            <%= s.Code%>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label class="form-label" for="keySearch">Search:</label>
+                                <input id="keySearch" name="keySearch" type="text" class="form-control" placeholder="Nhập từ khóa ..." value="<%=condition.keySearch%>">
+                            </div> -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" id="btn-search" style="margin-top: 27px;">
+                                    <i class="material-icons">search</i>
+                                </button>
+
+                                <a href="/lecturer/subject/<%= subjectCode %>">
+                                    <button type="button" class="btn btn-accent" style="margin-top: 27px">
+                                        <i class=" material-icons">close</i>
+                                    </button>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-lg-32pt">
+
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+
+
+
+
+                    <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;" id="table-subject">
+                        <thead>
+                            <tr>
+
+                                <th style="width: 100px;text-align: center;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Lớp</a>
+                                </th>
+                                <th style="width: 150px;text-align: center">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Mã môn
+                                        học</a>
+                                </th>
+                                <th style="text-align: center;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Môn
+                                        học</a>
+                                </th>
+                                <th style="width: 80px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Khoa</a>
+                                </th>
+                                <th style="width: 80px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Học
+                                        kỳ</a>
+                                </th>
+                                <th style="width: 24px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            <% classes.forEach(c=> { %>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <%= c.ClassName %>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <%= c.SubjectCode %>
+                                    </td>
+                                    <td>
+                                        <%= c.Name %>
+                                    </td>
+                                    <td>
+                                        <%= c.FacultyCode %>
+                                    </td>
+                                    <td>
+                                        <%= c.SemesterCode %>
+                                    </td>
+                                    <td class="text-right">
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span class="caret"></span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="/lecturer/class/<%= c.SubjectCode %>__<%= c.SemesterCode %>__<%= c.ClassName %>">Chi
+                                                    tiết</a>
+                                                <a class="dropdown-item" href="#">Dropdown link</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <%- include('../layout/footer'); -%>
+
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script>
+            $('#Semester').select2();
+            $('#btn-search').click(function(e) {
+                e.preventDefault();
+                $('#form-search').parent().parent().toggleClass('hidden');
+                $('#form-search').parent().parent().parent().toggleClass('hidden-parent');
+            });
+        </script>

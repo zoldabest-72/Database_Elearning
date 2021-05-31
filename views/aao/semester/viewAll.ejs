@@ -1,0 +1,105 @@
+<%- include('../layout/header'); -%>
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section">
+            <div class="row mb-32pt">
+                <div class="col-lg-4">
+                    <div class="page-separator">
+                        <div class="page-separator__text">Mở học kỳ mới</div>
+                    </div>
+                    <p class="card-subtitle text-70 mb-16pt mb-lg-0">The DateRangePicker can be attached to any webpage element to pop up two calendars for selecting dates, times, or predefined ranges like "Last 30 Days". Please read the <a target="_blank" href="http://www.daterangepicker.com">official plugin
+                            documentation</a> for a full list of options.</p>
+                </div>
+                <div class="col-lg-8 d-flex align-items-center">
+                    <div class="flex" style="max-width: 100%">
+                        <form action="/aao/semester" method="POST">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Mã học kỳ</label>
+                                <input type="text" class="form-control" name="SemesterCode" id="exampleInputEmail1" placeholder="Enter your email address ..">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-label" for="dateRangePickerSample01">Ngày bắt đầu</label>
+                                <input id="dateRangePickerSample01" type="date" name="StartDate" class="form-control" placeholder="Start date..." data-toggle="daterangepicker" data-daterangepicker-drops="up" data-daterangepicker-start-date="2018/11/06" data-daterangepicker-single-date-picker="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="text-label" for="dateRangePickerSample02">Ngày kết thúc</label>
+                                <input id="dateRangePickerSample02" type="date" name="FinishDate" class="form-control" placeholder="Finish Date..." data-toggle="daterangepicker" data-daterangepicker-drops="up" data-daterangepicker-start-date="2018/11/06" data-daterangepicker-single-date-picker="true">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="page-separator">
+                <div class="page-separator__text">Các học kỳ trước</div>
+            </div>
+            <div class="flex" style="max-width: 100%">
+
+
+                <div class="card m-0">
+
+                    <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values="[&quot;js-lists-values-employee-name&quot;, &quot;js-lists-values-semester-code&quot;, &quot;js-lists-values-projects&quot;, &quot;js-lists-values-activity&quot;, &quot;js-lists-values-earnings&quot;]">
+
+                        <div class="card-header">
+                            <div class="search-form">
+                                <input type="text" class="form-control search" placeholder="Search ...">
+                                <button class="btn" type="button"><i class="material-icons">search</i></button>
+                            </div>
+                        </div>
+
+
+
+
+                        <table class="table mb-0 thead-border-top-0 table-nowrap">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        <a href="javascript:void(0)" class="sort asc" data-sort="js-lists-values-employee-name">Stt</a>
+                                    </th>
+                                    <th style="width: 37px;" data-sort="js-lists-values-semester-code">Mã Học kỳ</th>
+
+                                    <th style="width: 120px;">
+                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-activity">Ngày bắt đầu</a>
+                                    </th>
+                                    <th style="width: 51px;">
+                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-earnings">Ngày kết thúc</a>
+                                    </th>
+                                    <th style="width: 24px;" class="pl-0"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="search">
+                                <% semesters.forEach((semester,i)=>{%>
+                                    <tr>
+                                        <td>
+                                            <p class="mb-0 js-lists-values-employee-name">
+                                                <%= i+1 %>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="mb-0 js-lists-values-semester-code">
+                                                <%= semester.Code %>
+                                            </p>
+                                        </td>
+                                        <td class="js-lists-values-activity">
+                                            <% var date=new Date(semester.StartDate) %>
+                                                <%= `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}` %>
+                                        </td>
+                                        <td class="js-lists-values-earnings ">
+                                            <% var date=new Date(semester.FinishDate) %>
+                                                <%= `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}` %>
+                                        </td>
+                                        <td class="text-right pl-0 ">
+                                            <a href=" " class="text-50 "><i class="material-icons ">more_vert</i></a>
+                                        </td>
+                                    </tr>
+                                    <%}) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <%- include('../layout/footer'); -%>

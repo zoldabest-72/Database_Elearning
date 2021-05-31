@@ -1,0 +1,301 @@
+<%- include('../layout/header'); -%>
+    <style>
+        .hidden {
+            opacity: 0;
+            transform: rotateX(-90deg);
+            transform-style: preserve-3d;
+            max-height: 0px;
+        }
+        
+        .hidden-parent {
+            max-height: 0px !important;
+        }
+        
+        #select-textbook-form {
+            display: none;
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            z-index: 1000;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(128, 128, 128, 0.459);
+        }
+        
+        #select-textbook-form>div {
+            overflow-y: scroll;
+            height: 80%;
+            width: 100%;
+            background-color: white;
+            border-radius: 5px;
+        }
+        
+        #select-textbook-form>div::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <link type="text/css" href="assets/css/select2.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/select2/select2.min.css" rel="stylesheet">
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section pb-0">
+            <h1 class="h2 mb-0">Subject</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/faculty">Home</a></li>
+                <li class="breadcrumb-item">Components</li>
+                <li class="breadcrumb-item active">Tables</li>
+
+            </ol>
+        </div>
+        <div class="container page__container page-section">
+            <div class="page-separator d-flex justify-content-between">
+                <div class="page-separator__text">Subject</div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-white" id="btn-search" style="margin-right: 10px;">
+                        <i class="material-icons">search</i>
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-add">
+                        Thêm
+                    </button>
+                </div>
+            </div>
+            <div class="hidden-parent" style="perspective: 400px;transition: all 300ms;max-height:300px;">
+                <div class="pb-32pt hidden" style="transform-origin: top;transition: all 300ms;height:auto;max-height: 300px;">
+                    <div class="container page__container">
+                        <form action="/lecturer/subject/" class="col-md-12 p-0 mx-auto d-flex justify-content-between align-items-center" method="GET" id="form-search">
+                            <div class="form-group">
+                                <label class="form-label" for="Semester">Học kỳ:</label>
+                                <select name="Semester" id="Semester" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="2" value="-1" selected>
+                                        Học kỳ
+                                    </option>
+                                    <% semesters.forEach((s)=>{%>
+                                        <option data-select2-id="2" value="<%= s.Code %>"
+                                            <%=condition.Semester==s.Code?"selected":""%>>
+                                            <%= s.Code%>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label class="form-label" for="keySearch">Search:</label>
+                                <input id="keySearch" name="keySearch" type="text" class="form-control" placeholder="Nhập từ khóa ..." value="<%=condition.keySearch%>">
+                            </div> -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" id="btn-search" style="margin-top: 27px;">
+                                    <i class="material-icons">search</i>
+                                </button>
+                                <a href="/lecturer/subject/">
+                                    <button type="button" class="btn btn-accent" style="margin-top: 27px">
+                                        <i class=" material-icons">close</i>
+                                    </button>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-lg-32pt">
+
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+
+
+
+
+                    <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;" id="table-subject">
+                        <thead>
+                            <tr>
+
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Mã</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Tên</a>
+                                </th>
+
+
+                                <th style="width: 48px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Số tín
+                                        chỉ</a>
+                                </th>
+                                <th style="width: 48px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Số
+                                        lớp</a>
+                                </th>
+                                <th style="width: 48px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Học
+                                        kỳ</a>
+                                </th>
+                                <th style="width: 24px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            <% subjects.forEach(subject=> { %>
+                                <tr>
+                                    <td>
+                                        <%= subject.Code %>
+                                    </td>
+                                    <td>
+                                        <%= subject.Name %>
+                                    </td>
+                                    <td>
+                                        <%= subject.NoOfCredits %>
+                                    </td>
+                                    <td>
+                                        <%= subject.NumClass %>
+                                    </td>
+                                    <td>
+                                        <%= subject.SemesterCode %>
+                                    </td>
+                                    <td class="text-right">
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span class="caret"></span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <p class="dropdown-item textbook" data-subject-code="<%= subject.Code %>" data-semester-code="<%=subject.SemesterCode %>">Giáo trình</p>
+                                                <a class="dropdown-item" href="/lecturer/subject/<%= subject.Code %>">Danh
+                                                    sách lớp</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer p-8pt">
+
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true" class="material-icons">chevron_left</span>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>1</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 2">
+                                <span>2</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span>Next</span>
+                                <span aria-hidden="true" class="material-icons">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- <div class="card-body bordet-top text-right">
+15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a>
+</div> -->
+
+
+            </div>
+        </div>
+    </div>
+    <div class="justify-content-center align-items-center" id="select-textbook-form">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <h4 id="subject-name" class="mb-3 mt-3">Tên môn học</h4>
+                <div class="d-flex">
+                    <div class="search-form form-control-flush ">
+                        <input type="text" class="form-control px-0" placeholder="Search icons" id="searchSample04">
+                        <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                    </div>
+                    <button type="button" id="confirm-textbook" class="btn btn-primary mb-3 mt-3 btn-rounded">Oke</button>
+                </div>
+            </div>
+            <div class="row" data-toggle="dragula" data-dragula-containers='["#cards-left", "#cards-right"]'>
+                <div class="col-12">
+                    <div class="card shadow-none border border-style-dashed">
+                        <div class="card-body">
+                            <div class="h6 mb-3">Danh sách giáo trình</div>
+                            <div id="cards-left" class="card-list" style="min-height: 100px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template>
+        <div class="card">
+            <div class="card-body media">
+                <div class="media-left mr-3">
+                    <div class="avatar">
+                        <img src="assets/images/256_rsz_nicolas-horn-689011-unsplash.jpg" alt="Avatar"
+                            class="avatar-img rounded-circle">
+                    </div>
+                </div>
+                <div class="media-body">
+                    <p>
+                        <strong class="textbook-code">Mã sách</strong><strong>-</strong><strong
+                            class="textbook-name">Tên sách</strong><br>
+                        <span class="text-muted">Nhà xuất bản:<span class="publisher">Nhà xuất bản</span> - Tái bản
+                            lần:<span class="edition">Tái bản
+                                lần</span></span>
+                    </p>
+                    <p class="text-muted mb-0"><em class="summary">Tóm tắt sách</em></p>
+                </div>
+            </div>
+        </div>
+    </template>
+    <%- include('../layout/footer'); -%>
+
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script>
+            $('.textbook').click(function(e) {
+                e.preventDefault();
+                var subjectCode = $(e.currentTarget).data('subjectCode');
+                var semesterCode = $(e.currentTarget).data('semesterCode');
+                $.ajax({
+                    type: "get",
+                    url: "/lecturer/subject/textbooks",
+                    data: {
+                        subjectCode,
+                        semesterCode
+                    },
+                    success: function(response) {
+                        var {
+                            textbooks,
+                            textbooksNotUse
+                        } = response;
+                        var temp = $("template").html().trim();
+                        $('#cards-left').html('');
+                        textbooks.forEach(textbook => {
+                            var clon = $(temp);
+                            $(clon).find('.textbook-code').html(textbook.Code);
+                            $(clon).find('.textbook-name').html(textbook.Name);
+                            $(clon).find('.edition').html(textbook.Edition);
+                            $(clon).find('.publisher').html(textbook.PublisherName);
+                            $(clon).find('.summary').html(textbook.Summary);
+                            $('#cards-left').append(clon);
+                        });
+                    }
+                });
+                $('#select-textbook-form').css('display', 'flex');
+            });
+            $('#confirm-textbook').click(function(e) {
+                $('#select-textbook-form').css('display', 'none');
+            })
+            $('#Semester').select2();
+            $('#btn-search').click(function(e) {
+                e.preventDefault();
+                $('#form-search').parent().parent().toggleClass('hidden');
+                $('#form-search').parent().parent().parent().toggleClass('hidden-parent');
+            });
+            $('#select-textbook-form').click(function(e) {
+                e.preventDefault();
+                if (e.target == e.currentTarget)
+                    $('#select-textbook-form').css('display', 'none');
+            });
+        </script>

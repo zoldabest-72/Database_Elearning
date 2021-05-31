@@ -1,0 +1,319 @@
+
+<%- include('../layout/header'); -%>
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section pb-0">
+            
+            <div class="flex" style="max-width: 100%">
+                <form action="/student/info" class="col-md-8 p-0 mx-auto" method="POST" id="form-add">
+                <div class="form-group">
+                    <label class="form-label" for="exampleInputEmail1">Chọn học kỳ muốn lấy thông tin:</label>
+                    <input name="SemesterCode" class="form-control" id="exampleInputEmail1" placeholder="Nhập mã học kỳ">
+                    <% if (typeof errorSemester !== 'undefined'){ %>
+                        <p style="color: red;">
+                            <%- errorSemester %>
+                        </p>
+                        <% } %>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="container page__container page-section">
+            <% if (classes.length>0){ %>
+            <div class="page-separator">
+                <div class="page-separator__text">Danh sách môn học kỳ <%=SemesterCode%></div>
+            </div>
+            <div class="card mb-lg-32pt">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                    data-lists-sort-desc="true"
+                    data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Mã</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Môn</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Lớp</a>
+                                </th>
+                                <th style="width: 50px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">TC</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Thứ</a>
+                                </th>
+                                <th style="width: 120px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Bắt
+                                        đầu</a>
+                                </th>
+                                <th style="width: 120px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Kết
+                                        thúc</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Phòng</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Giảng
+                                        viên</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Giáo trình
+                                        </a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Sĩ
+                                        số</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            <% classes.forEach((c,i)=>{ %>
+                                <tr>
+                                    <% var coincide = false;
+                                    if (i!=0){
+                                    if (classes[i-1].SubjectCode==c.SubjectCode){
+                                        coincide = true;
+                                    }
+                                    }%>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.SubjectCode %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.name %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.ClassName %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.NoOfCredits %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%= c.Date %>
+                                    </td>
+                                    <td>
+                                        <%= c.StartTime %>
+                                    </td>
+                                    <td>
+                                        <%= c.FinishTime %>
+                                    </td>
+                                    <td>
+                                        <%= c.Room %>
+                                    </td>
+                                    <td>
+                                        
+                                        <ul>
+                                            <%if (coincide==false) {%>
+                                            <% c.Teachers.forEach((l,d)=>{%>
+                                                <li>
+                                                    <%=l.Fname + ' ' + l.Mname + ' ' +l.Lname%>
+                                                </li>
+                                                <%})%>
+                                            <%}%>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <%if (coincide==false) {%>
+                                            <% c.Texts.forEach((l,d)=>{%>
+                                                <li>
+                                                    <%=l.Name%>
+                                                </li>
+                                                <%})%>
+                                            <%}%>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%=c.numStd+'/60'%>
+                                        <%}%>
+                                    </td>
+                                    <td><%if (coincide==false) {%>
+                                        <form action = "/student/info/allclass" class="col-md-8 p-0 mx-auto" method="POST"
+                                            id="form-add">
+                                            <input name="SemesterCode" type="hidden" value=<%=SemesterCode%>>
+                                            <input name="SubjectCode" type="hidden" value=<%=c.SubjectCode%>>
+                                            <button type="submit" class="btn btn-primary">Danh sách lớp</button>
+                                        </form>
+                                        <%}%>
+                                    </td>
+                                    <td><%if (coincide==false) {%>
+                                        <form action="/student/info/speclass" class="col-md-8 p-0 mx-auto" method="POST"
+                                            id="form-add">
+                                            <input name="SemesterCode" type="hidden" value=<%=SemesterCode%>>
+                                            <input name="SubjectCode" type="hidden" value=<%=c.SubjectCode%>>
+                                            <button type="submit" class="btn btn-primary">Danh sách lớp trên 1 giảng viên</button>
+                                        </form>
+                                        <%}%>
+                                    </td>
+                                    <% })%>
+                        </tbody>
+                    </table>
+         
+                </div> 
+                
+                    <div class="card-footer p-8pt">
+                        <ul>
+                            <li>Tổng số tín chỉ: <%=TotalCredit%></li>
+                            <li>Tổng số môn học: <%=TotalSubject%></li>
+                        </ul>
+                    </div>
+            </div>
+            <% } %>
+            <% if (SubClass.length>0){ %>
+            <div class="page-separator">
+                <div class="page-separator__text">Các lớp trong học kỳ</div>
+            </div>
+            <div class="card mb-lg-32pt">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                    data-lists-sort-desc="true"
+                    data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Mã</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Môn</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-name">Lớp</a>
+                                </th>
+                                <th style="width: 50px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">TC</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Thứ</a>
+                                </th>
+                                <th style="width: 120px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Bắt
+                                        đầu</a>
+                                </th>
+                                <th style="width: 120px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Kết
+                                        thúc</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Phòng</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Giảng
+                                        viên</a>
+                                </th><th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-company">Giáo trình</a>
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Sĩ
+                                        số</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            <% SubClass.forEach((c,i)=>{ %>
+                                <% if (Spec){ 
+                                    if(c.Teachers.length<=1){
+                                        return;
+                                    }
+                                }%>
+                                <% var coincide = false;
+                                        if (i!=0){
+                                        if (SubClass[i-1].SubjectCode===c.SubjectCode && SubClass[i-1].ClassName === c.ClassName){
+                                            coincide = true;
+                                        }
+                                        }%>
+                                <tr>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.SubjectCode %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.Name %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.ClassName %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%= c.NoOfCredits %>
+                                        <%}%>
+                                    </td>
+                                    <td>
+                                        <%= c.Date %>
+                                    </td>
+                                    <td>
+                                        <%= c.StartTime %>
+                                    </td>
+                                    <td>
+                                        <%= c.FinishTime %>
+                                    </td>
+                                    <td>
+                                        <%= c.Room %>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <%if (coincide==false) {%>
+                                            <% c.Teachers.forEach((l,d)=>{%>
+                                                <li>
+                                                    <%=l.Fname + ' ' + l.Mname + ' ' +l.Lname%>
+                                                </li>
+                                                <%})%>
+                                                <%}%>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <%if (coincide==false) {%>
+                                            <% c.Texts.forEach((l,d)=>{%>
+                                                <li>
+                                                    <%=l.Name%>
+                                                </li>
+                                                <%})%>
+                                                <%}%>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <%if (coincide==false) {%>
+                                        <%=c.numStd+'/60'%>
+                                        <%}%>
+                                    </td>
+                                    <% })%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+
+        <%- include('../layout/footer'); -%>

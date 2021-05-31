@@ -1,0 +1,145 @@
+<%- include('../layout/header'); -%>
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section pb-0">
+            <h1 class="h2 mb-0">Lớp</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/faculty">Home</a></li>
+                <li class="breadcrumb-item">Components</li>
+                <li class="breadcrumb-item active">Tables</li>
+
+            </ol>
+        </div>
+        <div class="container page__container page-section">
+            <div class="page-separator d-flex justify-content-between">
+                <div class="page-separator__text">Lớp: Tên lớp ở đây</div>
+            </div>
+            <div class="row mb-32pt">
+                <div class="col-lg-4 justify-content-center">
+
+
+                    <div class="card">
+                        <div class="card-body py-16pt">
+                            <h4 class="card-title"><strong>THông tin lớp học như là giảng viên, môn học khoa bla
+                                    bla</strong></h4>
+                            <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the library</p>
+
+                            <p class="card-subtitle text-70 mb-24pt">Tổng số sinh viên:
+                                <%= students.length %>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-8 d-flex">
+                    <div class="flex" style="max-width: 100%">
+
+
+                        <div class="card dashboard-area-tabs p-relative o-hidden mb-0" id="tab-std">
+                            <div class="card-header p-0 nav">
+                                <div class="row no-gutters" role="tablist">
+                                    <div class="col-auto">
+                                        <a href="#" data-toggle="tab" data-tab-id="tab1" role="tab" aria-selected="true" class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
+                                            <span class="flex d-flex flex-column">
+                                                <strong class="card-title">Sinh viên</strong>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body tab-content">
+                                <div class="tab-pane active" id="tab1">
+                                    <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+
+
+
+
+                                        <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;" id="table-subject">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 30px;">
+                                                        STT
+                                                    </th>
+
+                                                    <th style="width: 50px;text-align: center;">
+                                                        MSSV
+                                                    </th>
+                                                    <th style="text-align: left;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Họ và
+                                                            tên</a>
+                                                    </th>
+                                                    <th>
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Email</a>
+                                                    </th>
+                                                    <th style="text-align: center;width: 80px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Khóa</a>
+                                                    </th>
+                                                    <th style="width: 80px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Khoa</a>
+                                                    </th>
+                                                    <th style="width: 24px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list" id="clients">
+                                                <% students.forEach((student,i)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= condition.limit*(condition.page-1)+i+1 %>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <%= student.ID %>
+                                                        </td>
+                                                        <td style="text-align: left;">
+                                                            <%= student.Name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= student.Email %>
+                                                        </td>
+                                                        <td>
+                                                            <%= student.Grade %>
+                                                        </td>
+                                                        <td>
+                                                            <%= student.FacultyCode %>
+                                                        </td>
+                                                        <td class="text-right">
+
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span
+                                                                        class="caret"></span>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="/aao/student/<%= student.ID %>">Chi
+                                                                        tiết</a>
+                                                                    <a class="dropdown-item" href="#">Dropdown link</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layout/footer'); -%>
+        <script>
+            function tab(tabElement) {
+                $(tabElement).find('[role="tab"]').click(function(e) {
+                    e.preventDefault();
+                    var tabID = $(this).data('tabId');
+                    $(tabElement).find('.tab-pane.active').removeClass('active')
+                    $(tabElement).find('.tab-pane#' + tabID).addClass('active')
+                });
+            }
+            var tabElement = document.querySelector('#tab-std');
+            tab(tabElement);
+        </script>

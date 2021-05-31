@@ -1,0 +1,245 @@
+<%- include('../layout/header'); -%>
+
+    <!-- Header Layout Content -->
+    <div class="mdk-header-layout__content page-content" style="padding-top: 64px">
+        <div class="container page__container page-section">
+            <h1 class="h2 mb-0">Lecturers</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item">Faculty Officer</li>
+                <li class="breadcrumb-item active">Lecturers</li>
+            </ol>
+
+            <!-- Separator -->
+            <div class="page-separator d-flex justify-content-between" style="margin-top: 20px">
+                <div class="page-separator__text">Lecturers</div>
+                <div class="d-flex">
+                    <form action="/faculty/lecturer/class" class="form-inline" method="GET">
+                        <div class="search-from" style="margin-right: 20px">
+                            <select name="lecturerid" data-toggle="select"
+                                class="form-control form-control-sm select2-hidden-accessible"
+                                data-select2-id="select05" tabindex="-1" aria-hidden="true">
+                                <option disabled selected hidden>-- Search Lecturer --</option>
+                                <% if (Lecturers) { Lecturers.forEach((lecturer)=> { %>
+                                    <option value="<%=lecturer.ID%>">
+                                        <%=lecturer.Name%>
+                                    </option>
+                                    <%});}%>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary small">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- END Separator -->
+            <!-- Search -->
+            <div class="col-lg">
+                <div class="col-lg-2 mb-2">
+                    <label class="form-label" for="searchSemester" style="">Semester</label>
+                    <form action="" method="GET">
+                        <input name="semestercode" type="text" class="form-control" placeholder="Semester"
+                            id="searchSemester" />
+                    </form>
+                </div>
+            </div>
+
+            <!-- END Search -->
+            <!-- Table -->
+            <div class="card mb-lg-32pt">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+                    data-lists-sort-desc="true"
+                    data-lists-values='["js-lists-values-id", "js-lists-values-name", "js-lists-values-address", "js-lists-values-dateofbirth", "js-lists-values-email", "js-lists-values-phone"]'>
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th style="width: 48px">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-id">ID</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
+                                </th>
+                                <th style="width: 48px">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-address">Address</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-dateofbirth">Date of Birth</a>
+                                </th>
+
+                                <th>
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-email">Email</a>
+                                </th>
+
+                                <th style="width: 48px">
+                                    <a href="javascript:void(0)" class="sort"
+                                        data-sort="js-lists-values-phone">Phone</a>
+                                </th>
+
+                                <!-- <th style="width: 48px">
+                <a
+                  href="javascript:void(0)"
+                  class="sort desc"
+                  data-sort="js-lists-values-headofsubject"
+                  >Head of Subject</a
+                >
+              </th> -->
+                            </tr>
+                        </thead>
+                        <% if (Lecturers) { %>
+                            <tbody class="list" id="employees">
+                                <% Lecturers.forEach((lecturer)=> { %>
+                                    <tr style="text-align: center">
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0">
+                                                                <strong class="js-lists-values-id">
+                                                                    <%=lecturer.ID%>
+                                                                </strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0">
+                                                                <strong class="js-lists-values-name">
+                                                                    <%=lecturer.Name%>
+                                                                </strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0 js-lists-values-address">
+                                                                <%=lecturer.Address%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0 js-lists-values-dateofbirth">
+                                                                <%var d=lecturer.Bdate%>
+                                                                    <!-- <%=d?d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate():''%> -->
+                                                                    <%=d?d.toISOString().split('T')[0]:''%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0 js-lists-values-email">
+                                                                <%=lecturer.Email%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="media flex-nowrap align-items-center"
+                                                style="white-space: nowrap">
+                                                <div class="media-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex d-flex flex-column">
+                                                            <p class="mb-0 js-lists-values-phone">
+                                                                <%=lecturer.Phone%>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- <td>
+                <div
+                  class="media flex-nowrap align-items-center"
+                  style="white-space: nowrap"
+                >
+                  <div class="media-body">
+                    <div class="d-flex align-items-center">
+                      <div class="flex d-flex flex-column">
+                        <p class="mb-0 js-lists-values-headofsubject">
+                          subject
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td> -->
+                                    </tr>
+                                    <%});%>
+                            </tbody>
+                            <% } %>
+                    </table>
+                </div>
+
+                <div class="card-footer p-8pt">
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true" class="material-icons">chevron_left</span>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>1</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Page 2">
+                                <span>2</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span>Next</span>
+                                <span aria-hidden="true" class="material-icons">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="card-body bordet-top text-right">
+15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a>
+</div> -->
+            </div>
+            <!-- END Table -->
+        </div>
+    </div>
+    <!-- // END Header Layout Content -->
+    <%- include('../layout/footer'); -%>
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>

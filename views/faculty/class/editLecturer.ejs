@@ -1,0 +1,116 @@
+<%- include('../layout/header'); -%>
+  <div class="mdk-header-layout__content page-content" style="padding-top: 64px">
+    <div class="container page__container page-section pb-0">
+      <h1 class="h2 mb-0">Lecturers</h1>
+      <ol class="breadcrumb m-0 p-0">
+        <li class="breadcrumb-item"><a href="/faculty">Home</a></li>
+        <li class="breadcrumb-item">Faculty Officer</li>
+        <li class="breadcrumb-item">
+          <a href="/faculty/class">Classes</a>
+        </li>
+        <li class="breadcrumb-item active">Lecturers</li>
+      </ol>
+    </div>
+    <div class="container page__container page-section">
+      <div class="page-separator d-flex justify-content-between">
+        <div class="page-separator__text">Lecturers</div>
+        <div class="d-flex">
+          <form action="/" method="GET">
+            <div class="search-form" style="margin-right: 10px">
+              <input type="text" class="form-control" name="search" placeholder="Search icons" id="search" />
+              <button class="btn" type="submit" role="button">
+                <i class="material-icons">search</i>
+              </button>
+            </div>
+          </form>
+          <button type="button" class="btn btn-primary" name="add" id="btn-add">
+            Add
+          </button>
+        </div>
+      </div>
+      <div style="perspective: 450px; transition: all 300ms; max-height: 450px">
+        <div class="pb-64pt" style="
+          transform-origin: top;
+          transition: all 300ms;
+          height: auto;
+          max-height: 450px;
+        ">
+          <div class="container page__container">
+            <form action="/faculty/class/edit" class="col-md-6 p-0 mx-auto" method="POST">
+              <div class="form-group" style="width: 100%">
+                <label class="form-label" for="code" style="width: 20%">Code:
+                </label>
+                <input style="width: 80%; float: right" id="code" name="subjectcode" type="text" class="form-control"
+                  value="<%=cls.SubjectCode%>" readonly="readonly" />
+              </div>
+              <div class="form-group" style="width: 100%">
+                <label class="form-label" for="subject" style="width: 20%">Subject:
+                </label>
+                <input style="width: 80%; float: right" id="subject" name="subjectname" type="text" class="form-control"
+                  value="<%=cls.Name%>" readonly="readonly" />
+              </div>
+              <div class="form-group" style="width: 100%">
+                <label class="form-label" for="class" style="width: 20%">Class:</label>
+                <input style="width: 80%; float: right" id="class" name="classname" type="text" class="form-control"
+                  value="<%=cls.ClassName%>" readonly="readonly" />
+              </div>
+              <div class="form-group" style="width: 100%">
+                <label class="form-label" for="semester" style="width: 20%">Semester:</label>
+                <input style="width: 80%; float: right" id="semester" name="semestercode" type="text"
+                  class="form-control" value="<%=cls.SemesterCode%>" readonly="readonly" />
+              </div>
+              <div class="form-group" data-select2-id="16">
+                <label class="form-label" for="select03">Add Lecturers:</label>
+                <select name="lecturersid" id="select03" data-toggle="select" multiple="multiple"
+                  class="form-control select2-hidden-accessible" data-select2-id="select03" tabindex="-1"
+                  aria-hidden="true">
+                  <% freelecturers.forEach((freelecturer)=> { if
+                    (!lecturers.filter(x=> x.SubjectCode === cls.SubjectCode &&
+                    x.ClassName === cls.ClassName && x.SemesterCode ===
+                    cls.SemesterCode).map(x =>
+                    x.ID).includes(freelecturer.ID)) { %>
+                    <option value="<%=freelecturer.ID%>">
+                      <%=freelecturer.Name%>
+                    </option>
+                    <%} else {%>
+                      <option value="<%=freelecturer.ID%>" selected="selected">
+                        <%=freelecturer.Name%>
+                      </option>
+                      <%}});%>
+                </select>
+              </div>
+
+              <div class="form-group" style="width: 100%">
+                <label class="form-label" for="mainlecturer" style="width: 25%">Main Lecturer:</label>
+                <div class="select" style="width: 75%; float: right">
+                  <div class="form-row">
+                    <div class="col-md-12 mb-16pt mb-sm-0">
+                      <select name="mainlecturerid" class="custom-control custom-select form-control">
+                        <option disabled selected value>
+                          -- Select Main Lecturer --
+                        </option>
+                        <% freelecturers.forEach((freelecturer)=> {%>
+                          <option value="<%=freelecturer.ID%>">
+                            <%=freelecturer.Name%>
+                          </option>
+                          <%});%>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <button type="button" class="btn btn-accent">
+                  <a href="/faculty/class">Cancle</a>
+                </button>
+                <button class="btn btn-success">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('../layout/footer'); -%>
+    <script src="assets/vendor/select2/select2.min.js"></script>
+    <script src="assets/js/select2.js"></script>

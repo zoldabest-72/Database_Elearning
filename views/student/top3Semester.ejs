@@ -1,0 +1,144 @@
+<%- include('../layout/header'); -%>
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+
+        <%if (Top3.length>0){%>
+            <% classes.forEach((c,i)=>{ %>
+                <div class="container page__container page-section">
+                    <div class="page-separator">
+                        <div class="page-separator__text">Danh sách môn học kỳ
+                            <%=Top3[i]%>
+                        </div>
+                    </div>
+                    <div class="card mb-lg-32pt">
+                        <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+                            <table class="table mb-0 thead-border-top-0 table-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 100px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Mã</a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Môn</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Lớp</a>
+                                        </th>
+                                        <th style="width: 50px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">TC</a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Thứ</a>
+                                        </th>
+                                        <th style="width: 120px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Bắt
+                                                đầu</a>
+                                        </th>
+                                        <th style="width: 120px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Kết
+                                                thúc</a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Phòng</a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Giảng
+                                                viên</a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Giáo trình
+                                            </a>
+                                        </th>
+                                        <th style="width: 150px;">
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Sĩ
+                                                số</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list" id="clients">
+                                    <% c.forEach((x,ix)=>{ %>
+                                        <tr>
+                                            <% var coincide=false; if (ix!=0){ if (c[ix-1].SubjectCode==x.SubjectCode){
+                                                coincide=true; } }%>
+                                                <td>
+                                                    <%if (coincide==false){%>
+                                                        <%= x.SubjectCode %>
+                                                            <%}%>
+                                                </td>
+                                                <td>
+                                                    <%if (coincide==false){%>
+                                                        <%= x.Name %>
+                                                            <%}%>
+                                                </td>
+                                                <td>
+                                                    <%if (coincide==false){%>
+                                                        <%= x.ClassName %>
+                                                            <%}%>
+                                                </td>
+                                                <td>
+                                                    <%if (coincide==false){%>
+                                                        <%= x.NoOfCredits %>
+                                                            <%}%>
+                                                </td>
+                                                <td>
+                                                    <%= x.Date %>
+                                                </td>
+                                                <td>
+                                                    <%= x.StartTime %>
+                                                </td>
+                                                <td>
+                                                    <%= x.FinishTime %>
+                                                </td>
+                                                <td>
+                                                    <%= x.Room %>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <%if (coincide==false){%>
+                                                            <% x.Teachers.forEach((l,d)=>{%>
+                                                                <li>
+                                                                    <%=l.Fname + ' ' + l.Mname + ' ' +l.Lname%>
+                                                                </li>
+                                                                <%})%>
+                                                                    <%}%>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <%if (coincide==false){%>
+                                                            <% x.Texts.forEach((l,d)=>{%>
+                                                                <li>
+                                                                    <%=l.Name%>
+                                                                </li>
+                                                                <%})%>
+                                                                    <%}%>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <%if (coincide==false){%>
+                                                        <%=x.numStd+' /60'%>
+                                                            <%}%>
+                                                </td>
+
+                                                <% })%>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer p-8pt">
+                            <ul>
+                                <li>Tổng số tín chỉ:
+                                    <%=TotalCredit[i]%>
+                                </li>
+                                <li>Tổng số môn học:
+                                    <%=TotalSubject[i]%>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+                <% })%>
+                    <%}%>
+                        <%- include('../layout/footer'); -%>

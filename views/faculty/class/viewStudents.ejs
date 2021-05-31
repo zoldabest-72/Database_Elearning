@@ -1,0 +1,72 @@
+<%- include('../layout/header'); -%>
+
+<!-- Header Layout Content -->
+<div class="mdk-header-layout__content page-content" style="padding-top: 64px">
+  <div class="container page__container page-section">
+    <h1 class="h2 mb-0">Students</h1>
+    <ol class="breadcrumb m-0 p-0">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Faculty Officer</li>
+      <li class="breadcrumb-item">Classes</li>
+      <li class="breadcrumb-item active">Students</li>
+    </ol>
+
+    <!-- Separator -->
+    <div class="page-separator" style="margin-top: 20px">
+      <div class="page-separator__text">Students</div>
+    </div>
+    <div class="page-separator__text" style="color: red">
+      <p>
+        Subject: <%=Cls.SubjectName%>
+        <br />
+        Class: <%=Cls.ClassName%>
+        <br />
+        Semester: <%=Cls.SemesterCode%>
+      </p>
+    </div>
+
+    <div class="col-lg-12 d-flex align-items-center">
+      <div class="flex" style="max-width: 100%">
+        <div class="card m-0">
+          <div
+            class="table-responsive"
+            data-toggle="lists"
+            data-lists-sort-by="js-lists-values-employee-name"
+            data-lists-values='["js-lists-values-employee-name", "js-lists-values-employer-name", "js-lists-values-projects", "js-lists-values-activity", "js-lists-values-earnings"]'
+          >
+            <!-- Student Class Table -->
+            <% if (Students) { %>
+            <table class="table mb-0 thead-border-top-0 table-nowrap">
+              <thead>
+                <tr>
+                  <th style="text-align: center">Student ID</th>
+                  <th style="text-align: center">Name</th>
+                  <th style="text-align: center">Faculty</th>
+                  <th style="text-align: center">Grade</th>
+                  <th style="text-align: center">Status</th>
+                  <th class="pl-0"></th>
+                </tr>
+              </thead>
+              <tbody class="list">
+                <% Students.forEach((student) => { %>
+                <tr style="text-align: center">
+                  <td><strong><%= student.StudentID %></strong></td>
+                  <td><strong><%= student.Fullname %></strong></td>
+                  <td><%= student.FacultyName %></td>
+                  <td><%= student.Grade %></td>
+                  <td><%= student.Status %></td>
+                  <td></td>
+                </tr>
+                <%});%>
+              </tbody>
+            </table>
+            <% }; %>
+            <!-- END Student Class Table -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- // END Header Layout Content -->
+<%- include('../layout/footer'); -%>

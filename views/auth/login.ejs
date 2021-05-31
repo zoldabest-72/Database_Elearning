@@ -1,0 +1,64 @@
+<%- include('../layout/header'); -%>
+<!-- Header Layout Content -->
+<div class="mdk-header-layout__content page-content ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="pt-32pt pt-sm-64pt pb-32pt">
+        <div class="container page__container">
+            <form action="/user/login" class="col-md-5 p-0 mx-auto" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email:</label>
+                    <input id="email" name="email" type="email" class="form-control"
+                        placeholder="Your email address ..." value="<%- typeof email!=="undefined"?email:'' %>">
+                    <% if (typeof errorEmail !== 'undefined'){ %>
+                    <p style="color: red;">
+                        <%- errorEmail %>
+                    </p>
+                    <% } %>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password:</label>
+                    <input id="password" name="password" type="password" class="form-control"
+                        placeholder="Your first and last name ...">
+                    <% if (typeof errorPassword !== 'undefined'){ %>
+                    <p style="color: red;">
+                        <%- errorPassword %>
+                    </p>
+                    <% } %>
+                    <p class="text-right"><a href="fixed-reset-password.html" class="small">Forgot your password?</a>
+                    </p>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- <div class="page-separator justify-content-center m-0">
+        <div class="page-separator__text">or sign-in with</div>
+    </div>
+    <div class="bg-body pt-32pt pb-32pt pb-md-64pt text-center">
+        <div class="container page__container">
+            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Facebook</a>
+            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Twitter</a>
+            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Google+</a>
+        </div>
+    </div> -->
+
+
+
+
+</div>
+<!-- // END Header Layout Content -->
+<%- include('../layout/footer'); -%>

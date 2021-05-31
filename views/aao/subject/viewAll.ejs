@@ -1,0 +1,357 @@
+<%- include('../layout/header'); -%>
+    <style>
+        .hidden {
+            opacity: 0;
+            transform: rotateX(-90deg);
+            transform-style: preserve-3d;
+            max-height: 0px;
+        }
+        
+        .hidden-parent {
+            max-height: 0px !important;
+        }
+        
+        .select2-dropdown .select2-results {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+        
+        .select2-dropdown .select2-results::-webkit-scrollbar {
+            visibility: hidden;
+            width: 0px;
+        }
+    </style>
+    <link type="text/css" href="assets/css/select2.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/select2/select2.min.css" rel="stylesheet">
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="container page__container page-section pb-0">
+            <h1 class="h2 mb-0">Subject</h1>
+            <ol class="breadcrumb m-0 p-0">
+                <li class="breadcrumb-item"><a href="/faculty">Home</a></li>
+                <li class="breadcrumb-item">Components</li>
+                <li class="breadcrumb-item active">Tables</li>
+
+            </ol>
+        </div>
+        <div class="container page__container page-section">
+            <div class="page-separator d-flex justify-content-between">
+                <div class="page-separator__text">Subject</div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-white" id="btn-search" style="margin-right: 10px;">
+                        <i class="material-icons">search</i>
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-add">
+                        Thêm
+                    </button>
+                </div>
+            </div>
+            <div class="hidden-parent" style="perspective: 400px;transition: all 300ms;max-height:300px;">
+                <div class="pb-32pt hidden" style="transform-origin: top;transition: all 300ms;height:auto;max-height: 300px;">
+                    <div class="container page__container">
+                        <form action="/aao/subject/" class="col-md-12 p-0 mx-auto d-flex justify-content-between align-items-center" method="GET" id="form-search">
+                            <div class="form-group mx-10px" data-select2-id="16">
+                                <label class="form-label" for="limit">Limit</label>
+                                <input id="limit" name="limit" type="number" class="form-control" value="<%= condition.limit || 10 %>" style="width: 60px;">
+                            </div>
+                            <div class="form-group" data-select2-id="16">
+                                <label class="form-label" for="SSubjectCode">Môn học:</label>
+                                <select name="SSubjectCode" id="SSubjectCode" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="2" value="-1" selected>
+                                        Môn học
+                                    </option>
+                                    <% subjectsGroup.forEach((subject)=>{%>
+                                        <option data-select2-id="2" value="<%= subject.Code %>"
+                                            <%=condition.SSubjectCode==subject.Code?"selected":""%>>
+                                            <%= subject.Code + ' - ' + subject.Name + ' - ' + subject.FacultyCode%>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div>
+                            <div class="form-group" data-select2-id="16">
+                                <label class="form-label" for="SFacultyCode">Khoa:</label>
+                                <select name="SFacultyCode" id="SFacultyCode" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="2" value="-1" selected>
+                                        Khoa
+                                    </option>
+                                    <% faculties.forEach((Faculty)=>{%>
+                                        <option data-select2-id="2" value="<%= Faculty.Code %>"
+                                            <%=condition.SFacultyCode==Faculty.Code?"selected":""%>>
+                                            <%= Faculty.Code + ' - ' + Faculty.Name%>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label class="form-label" for="Semester">Học kỳ:</label>
+                                <select name="Semester" id="Semester" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="2" value="-1" selected>
+                                        Học kỳ
+                                    </option>
+                                    <% semesters.forEach((s)=>{%>
+                                        <option data-select2-id="2" value="<%= s.Code %>"
+                                            <%=condition.Semester==s.Code?"selected":""%>>
+                                            <%= s.Code%>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="form-label" for="keySearch">Search:</label>
+                                <input id="keySearch" name="keySearch" type="text" class="form-control" placeholder="Nhập từ khóa ..." value="<%=condition.keySearch%>">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" id="btn-search" style="margin-top: 27px;">
+                                    <i class="material-icons">search</i>
+                                </button>
+
+                                <a href="/aao/subject/">
+                                    <button type="button" class="btn btn-accent" style="margin-top: 27px">
+                                        <i class=" material-icons">close</i>
+                                    </button>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden-parent" style="perspective: 400px;transition: all 300ms;max-height:300px;">
+                <div class="pb-32pt hidden" style="transform-origin: top;transition: all 300ms;height:auto;max-height: 300px;">
+                    <div class="container page__container">
+                        <form action="/faculty/subject/add" class="col-md-8 p-0 mx-auto  " method="POST" id="form-add">
+                            <div class="form-group">
+                                <label class="form-label" for="code">Mã: </label>
+                                <input id="code" name="code" type="text" class="form-control" placeholder="Mã môn học ..." value="">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Tên:</label>
+                                <input id="name" name="name" type="text" class="form-control" placeholder="Tên môn học ...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="NoOfCredits">Số tín chỉ:</label>
+                                <input id="noOfCredits" name="noOfCredits" type="number" class="form-control" placeholder="Số tín chỉ ...">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-danger">Hủy</button>
+                                <button class="btn btn-primary" id="submit-add-form">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-lg-32pt">
+
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values="[&quot;js-lists-values-name&quot;, &quot;js-lists-values-company&quot;, &quot;js-lists-values-phone&quot;, &quot;js-lists-values-date&quot;]">
+
+
+
+
+                    <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;" id="table-subject">
+                        <thead>
+                            <tr>
+                                <th>
+                                    STT
+                                </th>
+                                <th style="width: 150px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-company">Mã</a>
+                                </th>
+                                <th>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Tên</a>
+                                </th>
+
+
+                                <th style="width: 48px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Số tín
+                                        chỉ</a>
+                                </th>
+                                <th style="width: 48px;">
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-phone">Khoa</a>
+                                </th>
+
+                                <th style="width: 24px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="clients">
+                            <% subjects.forEach((subject,i)=> { %>
+                                <tr>
+                                    <td>
+                                        <%= condition.limit*(condition.page-1)+i+1 %>
+                                    </td>
+                                    <td>
+                                        <%= subject.Code %>
+                                    </td>
+                                    <td>
+                                        <%= subject.Name %>
+                                    </td>
+                                    <td>
+                                        <%= subject.NoOfCredits %>
+                                    </td>
+                                    <!-- <td>
+                                        <%= subject.SemesterCode %>
+                                    </td> -->
+                                    <td>
+                                        <%= subject.FacultyCode %>
+                                    </td>
+                                    <td class="text-right">
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span class="caret"></span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="/aao/subject/<%= subject.Code %>">Chi
+                                                    tiết</a>
+                                                <a class="dropdown-item" href="#">Dropdown link</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+
+
+                                    <!-- <tr class="selected">
+
+                                <td class="pr-0">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" checked="" id="customCheck1_clients_3" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label" for="customCheck1_clients_3"><span
+                                                class="text-hide">Check</span></label>
+                                    </div>
+                                </td>
+
+                                <td>
+
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+
+                                            <img src="assets/images/people/110/guy-1.jpg" alt="Avatar" class="avatar-img rounded-circle">
+
+
+                                        </div>
+                                        <div class="media-body">
+
+
+                                            <div class="d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-name">Gilbert
+                                                        Barrett</strong></p>
+                                                <small class="js-lists-values-email text-50">paolo.zieme@gmail.com</small>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                </td>
+
+
+                                <td>
+
+
+                                    <a href="" class="chip chip-outline-secondary">Admin</a>
+
+
+                                </td>
+
+
+                                <td>
+                                    <small class="js-lists-values-phone text-50">462-060-7408</small>
+                                </td>
+
+                                <td>
+                                    <small class="js-lists-values-date text-50">17 February 2019</small>
+                                </td>
+                                <td class="text-right">
+                                    <a href="" class="text-50"><i class="material-icons">more_vert</i></a>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer p-8pt d-flex justify-content-between">
+
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item <%= parseInt(condition.page)==1?" disabled ":" " %>">
+                            <a class="page-link" href="?limit=<%= condition.limit || -1 %>&SSubjectCode=<%= condition.SSubjectCode || -1 %>&SFacultyCode=<%= condition.SFacultyCode || -1 %>&Semester=<%= condition.Semester || -1 %>&keySearch=<%= condition.keySearch %>&page=<%= parseInt(condition.page)-1%>"
+                                aria-label="Previous">
+                                <span aria-hidden="true" class="material-icons">chevron_left</span>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <% for (var
+                            i=Math.max(1,parseInt(condition.page)-3);i<=Math.min(parseInt(condition.page)+3,pageMax);
+                            i++){%>
+                            <li class="page-item  <%= parseInt(condition.page)==i? 'active' : " " %>">
+                                <a class=" page-link" href="?limit=<%= condition.limit || -1 %>&SSubjectCode=<%= condition.SSubjectCode || -1 %>&SFacultyCode=<%= condition.SFacultyCode || -1 %>&Semester=<%= condition.Semester || -1 %>&keySearch=<%= condition.keySearch %>&page=<%= i%>">
+                                    <span>
+                                        <%=i%>
+                                    </span>
+                                </a>
+                            </li>
+                            <% } %>
+                                <li class="page-item <%= parseInt(condition.page)==pageMax?" disabled ":" " %>">
+                                    <a class="page-link" href="?limit=<%= condition.limit || -1 %>&SSubjectCode=<%= condition.SSubjectCode || -1 %>&SFacultyCode=<%= condition.SFacultyCode || -1 %>&Semester=<%= condition.Semester || -1 %>&keySearch=<%= condition.keySearch %>&page=<%= parseInt(condition.page)+1%>"
+                                        aria-label="Next">
+                                        <span>Next</span>
+                                        <span aria-hidden="true" class="material-icons">chevron_right</span>
+                                    </a>
+                                </li>
+                    </ul>
+                    <div class="text-50" style="font-size: 14px;font-weight: bold;">
+                        Showing
+                        <%= (condition.page-1)*condition.limit+1 %> to
+                            <%= Math.min(parseInt(condition.limit*condition.limit-1),max)%> of
+                                <%= max %> entries
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+    <%- include('../layout/footer'); -%>
+
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script>
+            $('#sel-subject').select2();
+            $('#SSubjectCode').select2();
+            $('#SFacultyCode').select2();
+            $('#Semester').select2();
+            $('#search').change('input', function(e) {
+                e.preventDefault();
+
+            });
+            $('#btn-add').click(function(e) {
+                e.preventDefault();
+                $('#form-add').parent().parent().toggleClass('hidden');
+                $('#form-add').parent().parent().parent().toggleClass('hidden-parent');
+
+            });
+            $('.btn.btn-danger').click(function(e) {
+                e.preventDefault();
+                $('#form-add').parent().parent().toggleClass('hidden');
+                $('#form-add').parent().parent().parent().toggleClass('hidden-parent');
+                $('#form-add').find('input').val('');
+            });
+            $('#submit-add-form').click(function(e) {
+                e.preventDefault();
+                var data = $('#form-add').serialize();
+                $.post("/faculty/subject/add", data,
+                    function(data, textStatus, jqXHR) {
+                        console.log(data, textStatus);
+                    }
+                );
+            });
+            $('#btn-search').click(function(e) {
+                e.preventDefault();
+                $('#form-search').parent().parent().toggleClass('hidden');
+                $('#form-search').parent().parent().parent().toggleClass('hidden-parent');
+
+            });
+        </script>

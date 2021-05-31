@@ -1,0 +1,32 @@
+<%- include('layout/header'); -%>
+<!-- Material input -->
+<h1><%= user.name %> - <%= user.id %></h1>
+<h3>Các môn học đã đăng ký</h3>
+<ul>
+    <% signedSubjects.forEach((signedSubject)=>{%>
+    <li class="list-group-item d-flex align-items-between justify-content-between">
+        <span><%= signedSubject.id %> - <%= signedSubject.name %> </span>
+        <button type="button" class="btn btn-danger delete" data-subjectid="<%= signedSubject.id%>">Xoá</button>
+    </li>
+    <%}) %>
+</ul>
+<h3>Thêm môn học</h3>
+<form action="subject/add" method="POST" >
+    <div class="form-group">
+        <select class="custom-select" name="subjectid">
+            <option value="" disabled selected>Chọn môn học</option>
+            <% var signedIDs = signedSubjects.map((sj)=>sj.id)%>
+            <% subjects.forEach((subject)=>{%>
+            <option value="<%= subject.id %>" id="<%= subject.id %>" <% if(signedIDs.includes(subject.id)){ %> disabled <% } %>>
+                <%= subject.name %>
+            </option>
+            <%}) %>
+        </select>
+    </div>
+
+    <div class="form-group d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </div>
+</form>
+
+<%- include('layout/footer'); -%>

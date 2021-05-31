@@ -1,0 +1,215 @@
+<%- include('../layout/header'); -%>
+    <link type="text/css" href="assets/css/select2.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/select2/select2.min.css" rel="stylesheet">
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
+            <div class="container page__container">
+                <ul class="nav navbar-nav flex align-items-sm-center">
+                    <li class="nav-item navbar-list__item">
+                        <div class="media align-items-center">
+                            <span class="media-left mr-16pt">
+                                <img src="assets/images/people/50/guy-6.jpg" width="40" alt="avatar"
+                                    class="rounded-circle">
+                            </span>
+                            <div class="media-body">
+                                <a class="card-title m-0" href="fixed-teacher-profile.html">
+                                    <%= student.Name %>
+                                </a>
+                                <p class="text-50 lh-1 mb-0">
+                                    <%= student.ID %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item navbar-list__item">
+                        <i class="material-icons text-muted icon--left">schedule</i>
+                        <%= student.Grade %>
+                    </li>
+                    <li class="nav-item navbar-list__item">
+                        <i class="material-icons text-muted icon--left">assessment</i>
+                        <%= student.Status %>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-section border-bottom-2">
+            <div class="container page__container">
+
+                <div class="page-separator">
+                    <div class="page-separator__text">Thông tin sinh viên</div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col-lg-4 justify-content-center">
+
+
+                        <div class="card">
+                            <div class="card-body py-16pt text-center">
+                                <span class="icon-holder icon-holder--outline-secondary rounded-circle d-inline-flex mb-8pt">
+                                    <i class="material-icons">timer</i>
+                                </span>
+                                <h4 class="card-title"><strong>Unlock Library</strong></h4>
+                                <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the library</p>
+                                <a href="fixed-pricing.html" class="btn btn-accent mb-8pt">Sign Up - Only $19.00/mo</a>
+                                <p class="mb-0">Have an account? <a href="fixed-login.html">Login</a></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-8">
+
+
+                        <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-1" data-parent="#parent">
+                                    <span class="flex">Course Overview</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-1">
+                                    <div class="accordion__menu-link">
+                                        <!-- <span class="material-icons icon-16pt icon--left text-primary">play_circle_outline</span> -->
+                                        <span class="icon-holder icon-holder--small icon-holder--dark rounded-circle d-inline-flex icon--left">
+                                            <i class="material-icons icon-16pt">play_circle_outline</i>
+                                        </span>
+                                        <a class="flex" href="fixed-student-lesson.html">Watch Trailer</a>
+                                        <span class="text-muted">1m 10s</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-2" data-parent="#parent">
+                                    <span class="flex">Lớp học tham gia</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-2">
+                                    <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values='["js-lists-values-class-name", "js-lists-values-subject-code", "js-lists-values-subject-name", "js-lists-values-faculty-code", "js-lists-values-semester-code"]'>
+                                        <div class="card-header ">
+                                            <form action="/aao/student/<%= student.ID %> " id="form-search" class="d-flex justify-content-between">
+                                                <div class="form-group" style="margin-bottom: 0px;margin-right: 10px; width: 90px;">
+                                                    <select name="Semester" id="Semester" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                                        <option data-select2-id="2" value="-1" selected>
+                                                            Học kỳ
+                                                        </option>
+                                                        <% semesters.forEach((s)=>{%>
+                                                            <option data-select2-id="2" value="<%= s.Code %>"
+                                                                <%=condition.Semester==s.Code?"selected":""%>>
+                                                                <%= s.Code%>
+                                                            </option>
+                                                            <%}) %>
+                                                    </select>
+                                                </div>
+                                                <div class="search-form flex-grow-1">
+                                                    <input type="text" class="form-control search" placeholder="Search ...">
+                                                    <button class="btn" type="button"><i
+                                                            class="material-icons">search</i></button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;">
+                                            <thead>
+                                                <tr>
+
+                                                    <th style="width: 37px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-employee-name">Lớp</a>
+                                                    </th>
+                                                    <th style="width: 37px;">Mã môn</th>
+                                                    <th style="width: 200px;">Môn học</th>
+
+                                                    <th style="width: 20px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-activity">Khoa</a>
+                                                    </th>
+                                                    <th style="width: 51px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-earnings">Học kỳ</a>
+                                                    </th>
+                                                    <th style="width: 24px;" class="pl-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list" id="search">
+                                                <% classes.forEach((c)=>{ %>
+                                                    <tr>
+                                                        <td class="js-lists-values-class-name">
+                                                            <%= c.ClassName %>
+                                                        </td>
+                                                        <td class="js-lists-values-subject-code">
+                                                            <%= c.SubjectCode %>
+                                                        </td>
+                                                        <td class="js-lists-values-subject-name">
+                                                            <%= c.Name %>
+                                                        </td>
+                                                        <td class="js-lists-values-faculty-code">
+                                                            <%= c.FacultyCode %>
+                                                        </td>
+                                                        <td class="js-lists-values-semester-code">
+                                                            <%= c.SemesterCode %>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span
+                                                                        class="caret"></span>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="/aao/class/<%= c.SubjectCode %>__<%= c.SemesterCode %>__<%= c.ClassName %>">Chi
+                                                                        tiết</a>
+                                                                    <a class="dropdown-item" href="#">Dropdown link</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-3" data-parent="#parent">
+                                    <span class="flex">Creating and Communicating Between Angular Components</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-3">
+                                    <div class="accordion__menu-link">
+                                        <!-- <span class="material-icons icon-16pt icon--left text-muted">lock</span> -->
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                                            <i class="material-icons icon-16pt">lock</i>
+                                        </span>
+                                        <a class="flex" href="fixed-student-lesson.html">Angular Components</a>
+                                        <span class="text-muted">04:23</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-4" data-parent="#parent">
+                                    <span class="flex">Exploring the Angular Template Syntax</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-4">
+                                    <div class="accordion__menu-link">
+                                        <!-- <span class="material-icons icon-16pt icon--left text-muted">lock</span> -->
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                                            <i class="material-icons icon-16pt">lock</i>
+                                        </span>
+                                        <a class="flex" href="fixed-student-lesson.html">Template Syntax</a>
+                                        <span class="text-muted">04:23</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layout/footer'); -%>
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script>
+            $('#Semester').select2();
+            $('#Semester').change(function(e) {
+                e.preventDefault();
+                $("#form-search").submit();
+            });
+        </script>

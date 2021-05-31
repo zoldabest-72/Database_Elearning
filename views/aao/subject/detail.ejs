@@ -1,0 +1,302 @@
+<%- include('../layout/header'); -%>
+    <link type="text/css" href="assets/css/select2.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/select2/select2.min.css" rel="stylesheet">
+    <div class="mdk-header-layout__content page-content " style="padding-top: 64px;">
+        <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
+            <div class="container page__container">
+                <ul class="nav navbar-nav flex align-items-sm-center">
+                    <li class="nav-item navbar-list__item">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <a class="card-title m-0" href="fixed-teacher-profile.html">
+                                    <%= subject.Name %>
+                                </a>
+                                <p class="text-50 lh-1 mb-0">
+                                    <%= subject.ID %>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item navbar-list__item">
+                        <i class="material-icons text-muted icon--left">schedule</i>
+                        <%= subject.Grade %>
+                    </li>
+                    <li class="nav-item navbar-list__item">
+                        <i class="material-icons text-muted icon--left">assessment</i>
+                        <%= subject.Status %>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="page-section border-bottom-2">
+            <div class="container page__container">
+
+                <div class="page-separator">
+                    <div class="page-separator__text">Thông tin môn học</div>
+                </div>
+                <div class="row mb-0">
+                    <div class="col-lg-4 justify-content-center">
+
+
+                        <div class="card">
+                            <div class="card-body py-16pt">
+                                <h4 class="card-title"><strong>
+                                        <%= subject.Name %>
+                                    </strong></h4>
+                                <p class="card-subtitle text-70 mt-24pt"><strong>Khoa :</strong>
+                                    <%= subject.FacultyCode %>
+                                </p>
+                                <p>Thông tin chi tiết của môn học</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-8">
+
+
+                        <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-1" data-parent="#parent">
+                                    <span class="flex">
+                                        Các lớp được mở
+                                    </span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-1">
+                                    <div class="table-responsive" id="table1" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values='["js-lists-values-class-name", "js-lists-values-subject-code", "js-lists-values-subject-name", "js-lists-values-faculty-code", "js-lists-values-semester-code"]'>
+                                        <div class="card-header ">
+                                            <form action="/aao/subject/<%= subject.Code %> " id="form-search" class="d-flex justify-content-between">
+                                                <div class="form-group" style="margin-bottom: 0px;margin-right: 10px; width: 90px;">
+                                                    <select name="Semester" id="Semester1" data-toggle="select" class="form-control select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                                        <option data-select2-id="2" value="-1" selected>
+                                                            Học kỳ
+                                                        </option>
+                                                        <% semesters.forEach((s)=>{%>
+                                                            <option data-select2-id="2" value="<%= s.Code %>">
+                                                                <%= s.Code%>
+                                                            </option>
+                                                            <%}) %>
+                                                    </select>
+                                                </div>
+                                                <div class="search-form flex-grow-1">
+                                                    <input type="text" class="form-control search" placeholder="Search ..." value="<%=condition.keySearch%>">
+                                                    <button class="btn" type="button"><i
+                                                            class="material-icons">search</i></button>
+                                                </div>
+
+                                            </form>
+                                            <p style="margin:10px 0px 0px 0px; opacity: 0.5; font-size: 14px;text-align: right;" id="numstd">
+                                                Tổng số sinh viên:
+                                                <%= classes.map(c=> c.NumberStudent ? c.NumberStudent : 0).reduce((a,
+                                                    b)=> a + b, 0)%>
+                                            </p>
+                                        </div>
+                                        <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 37px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-employee-name">Lớp</a>
+                                                    </th>
+                                                    <th style="width: 37px;">Sinh viên theo học</th>
+                                                    <th style="width: 200px;">Học kỳ</th>
+
+                                                    <!-- <th style="width: 20px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-activity">Tái bản</a>
+                                                    </th>
+                                                    <th style="width: 51px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-earnings">Học kỳ</a>
+                                                    </th> -->
+                                                    <th style="width: 24px;" class="pl-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list" id="search">
+                                                <% classes.forEach((c)=>{ %>
+                                                    <tr>
+                                                        <td class="js-lists-values-class-name">
+                                                            <%= c.ClassName %>
+                                                        </td>
+                                                        <td class="js-lists-values-subject-code nstd">
+                                                            <%= c.NumberStudent || 0%>
+                                                        </td>
+                                                        <!-- <td class="js-lists-values-subject-name filter-select">
+                                                            <%= c.SemesterCode %>
+                                                        </td> -->
+                                                        <!-- <td class="js-lists-values-faculty-code">
+                                                            <%= c.Edition %>
+                                                        </td> -->
+                                                        <td class="js-lists-values-semester-code filter-select">
+                                                            <%= c.SemesterCode %>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span
+                                                                        class="caret"></span>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="/aao/class/<%= subject.Code %>__<%= c.SemesterCode %>__<%= c.ClassName %>  ">Chi
+                                                                        tiết</a>
+                                                                    <a class="dropdown-item" href="#">Dropdown link</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-2" data-parent="#parent">
+                                    <span class="flex">
+                                        Giáo trình
+                                    </span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-2">
+                                    <div class="table-responsive" id="table2" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values='["js-lists-values-class-name", "js-lists-values-subject-code", "js-lists-values-subject-name", "js-lists-values-faculty-code", "js-lists-values-semester-code"]'>
+                                        <div class="card-header ">
+                                            <form action="#" id="form-search" class="d-flex justify-content-between">
+                                                <div class="form-group" style="margin-bottom: 0px;margin-right: 10px; width: 90px;">
+                                                    <select name="Semester" id="Semester2" data-toggle="select" class="form-control search select2-hidden-accessible" data-select2-id="select01" tabindex="-1" aria-hidden="true">
+                                                        <option data-select2-id="2" value="-1" selected>
+                                                            Học kỳ
+                                                        </option>
+                                                        <% semesters.forEach((s)=>{%>
+                                                            <option data-select2-id="2" value="<%= s.Code %>">
+                                                                <%= s.Code%>
+                                                            </option>
+                                                            <%}) %>
+                                                    </select>
+                                                </div>
+                                                <div class="search-form flex-grow-1">
+                                                    <input type="text" class="form-control search" placeholder="Search ..." value="<%=condition.keySearch%>">
+                                                    <button class="btn" type="button"><i
+                                                            class="material-icons">search</i></button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <table class="table mb-0 thead-border-top-0 table-nowrap" style="overflow: hidden;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 37px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-employee-name">Mã sách</a>
+                                                    </th>
+                                                    <th style="width: 37px;">Tên sách</th>
+                                                    <th style="width: 200px;">NXB</th>
+
+                                                    <th style="width: 20px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-activity">Tái bản</a>
+                                                    </th>
+                                                    <th style="width: 51px;">
+                                                        <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-earnings">Học kỳ</a>
+                                                    </th>
+                                                    <th style="width: 24px;" class="pl-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list" id="search2">
+                                                <% textbooks.forEach((textbook)=>{ %>
+                                                    <tr>
+                                                        <td class="js-lists-values-class-name">
+                                                            <%= textbook.Code %>
+                                                        </td>
+                                                        <td class="js-lists-values-subject-code">
+                                                            <%= textbook.Name %>
+                                                        </td>
+                                                        <td class="js-lists-values-subject-name">
+                                                            <%= textbook.PublisherName %>
+                                                        </td>
+                                                        <td class="js-lists-values-faculty-code">
+                                                            <%= textbook.Edition %>
+                                                        </td>
+                                                        <td class="js-lists-values-semester-code filter-select">
+                                                            <%= textbook.SemesterCode %>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: white;"><span
+                                                                        class="caret"></span>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" href="#">Chi tiết</a>
+                                                                    <a class="dropdown-item" href="#">Dropdown link</a>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-3" data-parent="#parent">
+                                    <span class="flex">Creating and Communicating Between Angular Components</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-3">
+                                    <div class="accordion__menu-link">
+                                        <!-- <span class="material-icons icon-16pt icon--left text-muted">lock</span> -->
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                                            <i class="material-icons icon-16pt">lock</i>
+                                        </span>
+                                        <a class="flex" href="fixed-student-lesson.html">Angular Components</a>
+                                        <span class="text-muted">04:23</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion__item">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-4" data-parent="#parent">
+                                    <span class="flex">Exploring the Angular Template Syntax</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="course-toc-4">
+                                    <div class="accordion__menu-link">
+                                        <!-- <span class="material-icons icon-16pt icon--left text-muted">lock</span> -->
+                                        <span class="icon-holder icon-holder--small icon-holder--light rounded-circle d-inline-flex icon--left">
+                                            <i class="material-icons icon-16pt">lock</i>
+                                        </span>
+                                        <a class="flex" href="fixed-student-lesson.html">Template Syntax</a>
+                                        <span class="text-muted">04:23</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layout/footer'); -%>
+        <script src="assets/vendor/select2/select2.min.js"></script>
+        <script src="assets/js/select2.js"></script>
+        <script>
+            $('#Semester1').select2();
+            $('#Semester2').select2();
+
+            function search(table) {
+                console.log($(table));
+                console.log($(table).find('select'));
+                $(table).find('select').change(function(e) {
+                    var numstd = 0;
+                    $(table).find('tbody tr').each((i, tr) => {
+                        var col = $(tr).find('.filter-select').text().trim();
+                        if (col == e.currentTarget.value || e.currentTarget.value == -1) {
+                            $(tr).css('display', '');
+                            numstd += parseInt($(tr).find('.nstd').text().trim());
+                        } else {
+                            $(tr).css('display', 'none');
+                        }
+                    });
+                    $('#numstd').text('Tổng số sinh viên: ' + numstd);
+                })
+            }
+            search($('#table1'));
+            search($('#table2'));
+        </script>

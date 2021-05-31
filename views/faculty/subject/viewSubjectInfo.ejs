@@ -1,0 +1,104 @@
+<%- include('../layout/header'); -%>
+
+	<!-- Header Layout Content -->
+	<div class="mdk-header-layout__content page-content" style="padding-top: 64px">
+		<div class="container page__container page-section">
+			<h1 class="h2 mb-0">Subject Info</h1>
+			<ol class="breadcrumb m-0 p-0">
+				<li class="breadcrumb-item"><a href="/">Home</a></li>
+				<li class="breadcrumb-item">Faculty Officer</li>
+				<li class="breadcrumb-item">Subjects</li>
+				<li class="breadcrumb-item active">Info</li>
+			</ol>
+
+			<!-- Separator -->
+			<div class="page-separator d-flex justify-content-between" style="margin-top: 20px">
+				<div class="page-separator__text">Subject Info</div>
+				<!-- Search -->
+				<div class="col-lg-3 mb-2">
+					<!-- <label class="form-label" for="searchSemester" style="">Semester</label> -->
+					<form action="" method="GET">
+						<input name="subjectcode" value="<%=Subject[0].Code%>" type="hidden" />
+						<div class="d-flex">
+							<input name="nyear" type="number" class="form-control" placeholder="Year #" />
+							<input name="semester" type="text" class="form-control" placeholder="Semester"
+								id="searchSemester" />
+							<button class="btn btn-primary" type="submit" role="button">
+								<i class="material-icons">search</i>
+							</button>
+						</div>
+					</form>
+				</div>
+				<!-- END Search -->
+			</div>
+			<!-- END Separator -->
+
+			<div class="page-separator__text d-flex justify-content-between mb-4">
+				<div class="d-flex" style="color: red;">
+					Subject: <%=Subject[0].Name%>
+				</div>
+
+				<div class="d-flex" style="color: red;">Semester: <%=Semester%>
+				</div>
+			</div>
+			<div class="page-separator__text d-flex justify-content-between mb-4">
+				<div class="d-flex" style="color: red;">
+					Average Students enrolled in <%=nyear%> year<%=nyear>1?'s':''%> ago:
+							<%=NStudent.length?NStudent[0].nstudent /nyear:0 %>
+				</div>
+
+			</div>
+			<div class="row mb-4pt">
+				<div class="col-lg-4">
+					<div class="page-separator">
+						<div class="page-separator__text">Textbook</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row card-group-row mb-lg-8pt d-flex">
+				<% Textbooks.forEach((book)=> { %>
+
+					<div class="mb-8pt d-flex align-items-center">
+						<a href="" class="avatar avatar-lg overlay overlay--primary mr-12pt">
+							<img src="assets/images/paths/invision_200x168.png"
+								alt="assets/images/paths/invision_200x168.png" class="avatar-img rounded">
+							<span class="overlay__content"></span>
+						</a>
+						<div class="flex">
+							<a class="card-title mb-4pt" href="">
+								<%=book.Name%>
+							</a>
+							<div class="d-flex align-items-center">
+								<small class="text-muted mr-8pt"><a href="">
+										<%=book.SubjectName%>
+									</a></small>
+								<small class="text-muted mr-8pt">
+									<%=book.PublisherName%>
+								</small>
+							</div>
+							<div class="d-flex align-items-center">
+								<small><small class="text-muted">
+										<%=book.Summary%>
+									</small></small>
+							</div>
+						</div>
+					</div>
+					<% }); %>
+			</div>
+		</div>
+		<!-- // END Header Layout Content -->
+		<%- include('../layout/footer'); -%>
+			<script src="assets/vendor/Chart.min.js"></script>
+			<script src="assets/js/chartjs-rounded-bar.js"></script>
+			<script src="assets/js/chartjs.js"></script>
+			<script src="assets/js/page.ui-charts.js"></script>
+			<div id="chart-tooltip" class="popover bs-popover-top" role="tooltip"
+				style="top: 1971.09px; left: 279.721px; display: none;">
+				<div class="arrow"></div>
+				<h3 class="popover-header text-center">Apr</h3>
+				<div class="popover-body d-flex align-items-center justify-content-center"><span
+						class="popover-body-indicator" style="background-color: rgba(85, 103, 255, 1)"></span><span
+						class="popover-body-value">$22k</span></div>
+			</div>

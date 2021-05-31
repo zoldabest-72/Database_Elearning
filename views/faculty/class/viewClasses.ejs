@@ -1,0 +1,215 @@
+<%- include('../layout/header'); -%>
+
+  <!-- Header Layout Content -->
+  <div class="mdk-header-layout__content page-content" style="padding-top: 64px">
+    <div class="container page__container page-section">
+      <h1 class="h2 mb-0">Classes</h1>
+      <ol class="breadcrumb m-0 p-0">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item">Faculty Officer</li>
+        <li class="breadcrumb-item active">Classes</li>
+      </ol>
+
+      <!-- Separator -->
+      <div class="page-separator d-flex justify-content-between" style="margin-top: 20px">
+        <div class="page-separator__text">Classes</div>
+        <!-- Search -->
+        <div class="col-lg-3 mb-2">
+          <!-- <label class="form-label" for="searchSemester" style="">Semester</label> -->
+          <form action="" method="GET">
+            <div class="search-form" style="margin-right: 10px">
+              <input type="text" class="form-control" name="semester" placeholder="Semester <%=Semester%>"
+                id="search" />
+              <button class="btn" type="submit" role="button">
+                <i class="material-icons">search</i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- END Search -->
+      </div>
+      <!-- END Separator -->
+
+      <% if (Classes) { %>
+        <p>
+          <strong style="size: 50px; color: red">Number of classes: <%=Classes.length%></strong>
+          <br>
+          <strong style="size: 50px; color: red">Number of students: <%=NStudent[0].nstudent%></strong>
+        </p>
+        <div class="col-lg-12 d-flex align-items-center">
+          <div class="flex" style="max-width: 100%">
+            <div class="card m-0">
+              <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-code"
+                data-lists-sort-desc="false"
+                data-lists-values='["js-lists-values-code", "js-lists-values-subject", "js-lists-values-class", "js-lists-values-activity", "js-lists-values-semester", ""]'>
+                <!-- Student Class Table -->
+
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                  <thead>
+                    <tr style="text-align: center">
+                      <th>Code</th>
+                      <th>Subject</th>
+                      <th>Class Name</th>
+                      <th>Semester</th>
+                      <th>Lecturers</a>
+                      </th>
+                      <th>Week</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody class="list">
+                    <% Classes.forEach((cls)=> { var lecturersOfClass =
+                      lecturers.filter((lecturer) =>{ return lecturer.SubjectCode ===
+                      cls.SubjectCode && lecturer.ClassName === cls.ClassName &&
+                      lecturer.SemesterCode === cls.SemesterCode; }); var rs =
+                      lecturersOfClass.length;%>
+                      <tr style="text-align: center">
+                        <td rowspan="<%=rs?rs:''%>" style="<%=rs?'vertical-align:top': '' %>">
+                          <strong>
+                            <%=cls.SubjectCode%>
+                          </strong>
+                        </td>
+                        <td rowspan="<%=rs?rs:''%>" style="<%=rs?'vertical-align:top': '' %>">
+                          <strong>
+                            <%=cls.Name%>
+                          </strong>
+                        </td>
+                        <td rowspan="<%=rs?rs:''%>" style="<%=rs?'vertical-align:top': '' %>">
+                          <strong>
+                            <%=cls.ClassName%>
+                          </strong>
+                        </td>
+                        <td rowspan="<%=rs?rs:''%>" style="<%=rs?'vertical-align:top': '' %>">
+                          <%=cls.SemesterCode%>
+                        </td>
+                        <td>
+                          <%=rs?lecturersOfClass[0].Name:'';%>
+                            <% if (rs && lecturersOfClass[0].LecturerID===cls.MainLecturerID) { %>
+                              <i class="material-icons text-accent">stars</i>
+                              <%}%>
+                        </td>
+                        <td>
+                          <% if (rs) { %>
+                            <form action="/faculty/class" method="GET">
+                              <input type="hidden" name="cls" value="<%=JSON.stringify(cls)%>" />
+                              <input type="hidden" name="lecturerid" value="<%=lecturersOfClass[0].LecturerID%>" />
+
+                              <input name="week" style="width: 50px; text-align: center; border: hidden" type="text"
+                                pattern="[1-9][0-9]*-[1-9][0-9]*" value="<%=lecturersOfClass[0].Week%>" readonly="true"
+                                ondblclick="this.readOnly='';" />
+                            </form>
+                            <% }; %>
+                        </td>
+                        <td rowspan="<%=rs?rs:''%>" style="<%=rs?'vertical-align:top': '' %>">
+                          <div class="d-flex">
+                            <form action="/faculty/class/edit" method="GET">
+                              <input name="subjectcode" type="hidden" value="<%=cls.SubjectCode%>" />
+                              <input name="subjectname" type="hidden" value="<%=cls.Name%>" />
+                              <input name="classname" type="hidden" value="<%=cls.ClassName%>" />
+                              <input name="semestercode" type="hidden" value="<%=cls.SemesterCode%>" />
+                              <% if (cls.SemesterCode < CurSemester) { %>
+                                <button disabled class="btn btn-secondary small p-4pt">
+                                  <i class="material-icons">edit</i>
+                                </button>
+                                <% } else { %>
+                                  <button class="btn btn-dark small p-4pt">
+                                    <i class="material-icons">edit</i>
+                                  </button>
+                                  <% } %>
+                            </form>
+                            <form action="/faculty/class/student" method="GET">
+                              <input name="subjectcode" type="hidden" value="<%=cls.SubjectCode%>" />
+                              <input name="subjectname" type="hidden" value="<%=cls.Name%>" />
+                              <input name="classname" type="hidden" value="<%=cls.ClassName%>" />
+                              <input name="semestercode" type="hidden" value="<%=cls.SemesterCode%>" />
+                              <button class="btn btn-primary small p-4pt">
+                                <i class="material-icons">view_list</i>
+                              </button>
+                            </form>
+                          </div>
+                        </td>
+                      </tr>
+                      <% if (rs) { lecturersOfClass.slice(1,).forEach((lecturer)=> {
+                        %>
+                        <tr style="text-align: center">
+                          <td>
+                            <%=lecturer.Name%>
+                              <% if (lecturer.LecturerID===cls.MainLecturerID){%>
+                                <i class="material-icons text-accent">stars</i>
+                                <%}%>
+                          </td>
+                          <td>
+                            <form action="/faculty/class" method="GET">
+                              <input type="hidden" name="cls" value="<%=JSON.stringify(cls)%>" />
+                              <input type="hidden" name="lecturerid" value="<%=lecturer.LecturerID%>" />
+
+                              <input name="week" style="width: 50px; text-align: center; border: hidden" type="text"
+                                pattern="[1-9][0-9]*-[1-9][0-9]*" value="<%=lecturer.Week%>" readonly="true"
+                                ondblclick="this.readOnly='';" />
+                            </form>
+                          </td>
+                        </tr>
+                        <%})};}); %>
+                  </tbody>
+                </table>
+
+                <!-- END Student Class Table -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <%} else { %> <strong>No classes in this semester</strong>
+          <% }; %>
+    </div>
+  </div>
+  <!-- // END Header Layout Content -->
+  <style>
+    .multiselect {
+      width: 200px;
+    }
+
+    .selectBox {
+      position: relative;
+    }
+
+    .selectBox select {
+      width: 100%;
+      font-weight: bold;
+    }
+
+    .overSelect {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #checkboxes {
+      display: none;
+      border: 1px #dadada solid;
+    }
+
+    #checkboxes label {
+      display: block;
+    }
+
+    #checkboxes label:hover {
+      background-color: #1e90ff;
+    }
+  </style>
+  <script>
+    var expanded = false;
+
+    function showCheckboxes() {
+      var checkboxes = document.getElementById("checkboxes");
+      if (!expanded) {
+        checkboxes.style.display = "block";
+        expanded = true;
+      } else {
+        checkboxes.style.display = "none";
+        expanded = false;
+      }
+    }
+  </script>
+  <%- include('../layout/footer'); -%>

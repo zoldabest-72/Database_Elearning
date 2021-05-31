@@ -1,0 +1,20 @@
+DROP FUNCTION IF EXISTS getUserFullName;
+DELIMITER |
+CREATE FUNCTION getUserFullname (userid VARCHAR(10))
+RETURNS VARCHAR(45)
+DETERMINISTIC
+BEGIN
+    RETURN (SELECT CONCAT(Fname, " ", Mname, " ", Lname) FROM User WHERE ID = userid);
+    
+END |
+DELIMITER ;
+
+DROP FUNCTION IF EXISTS getPeriod;
+DELIMITER |
+CREATE FUNCTION getPeriod (starttime TIME, finishtime TIME)
+RETURNS VARCHAR(13)
+DETERMINISTIC
+BEGIN
+    RETURN (SELECT CONCAT(DATE_FORMAT(starttime, "%H:%i"), " - ", DATE_FORMAT(finishtime, "%H:%i")));
+END |
+DELIMITER ;
